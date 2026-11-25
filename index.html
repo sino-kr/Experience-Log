@@ -3,184 +3,201 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="나의 경험을 기록하는 공간">
-  <title>경험 기록</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cal-heatmap@4.2.4/dist/cal-heatmap.css">
+  <title>GrowPath - 경험 기록</title>
+  <meta name="description" content="내 경험을 기록하고 성장 스토리를 만드는 자기 계발 서비스">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main class="page-shell">
-    <header class="page-heading">
-      <div>
-        <p class="eyebrow">MY GROWTH JOURNEY</p>
-        <h1>경험 기록</h1>
-        <p>크고 작은 경험을 기록하고 나만의 성장 스토리를 만들어보세요.</p>
-      </div>
-    </header>
-
-    <div class="tab-bar" role="tablist" aria-label="경험 기록 메뉴">
-      <button class="tab-button active" id="extract-tab" type="button" role="tab" aria-selected="true" aria-controls="extract-panel" tabindex="0"><i data-lucide="lightbulb"></i>경험 꺼내기</button>
-      <button class="tab-button" id="write-tab" type="button" role="tab" aria-selected="false" aria-controls="write-panel" tabindex="-1"><i data-lucide="pen-line"></i>기록 작성</button>
-      <button class="tab-button" id="list-tab" type="button" role="tab" aria-selected="false" aria-controls="list-panel" tabindex="-1"><i data-lucide="list"></i>기록 목록</button>
-      <button class="tab-button" id="calendar-tab" type="button" role="tab" aria-selected="false" aria-controls="calendar-panel" tabindex="-1"><i data-lucide="calendar-days"></i>캘린더 · 스트릭</button>
-    </div>
-
-    <section class="tab-panel active" id="extract-panel" role="tabpanel" aria-labelledby="extract-tab" tabindex="0">
-      <div class="section-intro">
-        <span class="step-label">STEP 1</span>
-        <h2>어떤 경험을 떠올리고 있나요?</h2>
-        <p>분류를 선택하고 안내 질문을 따라 경험을 입력해보세요.</p>
-      </div>
-
-      <div class="extract-category-tabs" role="tablist" aria-label="경험 분류">
-        <button class="extract-tab active" id="category-class" type="button" role="tab" aria-selected="true" aria-controls="category-panel" data-category="class">수업 과제</button>
-        <button class="extract-tab" id="category-club" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="club">동아리</button>
-        <button class="extract-tab" id="category-contest" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="contest">대회·공모전</button>
-        <button class="extract-tab" id="category-work" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="work">알바·인턴</button>
-        <button class="extract-tab" id="category-volunteer" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="volunteer">봉사</button>
-        <button class="extract-tab" id="category-hobby" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="hobby">취미·자기계발</button>
-        <button class="extract-tab" id="category-award" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="award">수상·자격증</button>
-      </div>
-
-      <div class="extract-workspace" id="category-panel" role="tabpanel" aria-labelledby="category-class">
-        <div class="guide-card">
-          <span class="guide-tag" id="guideTag">수업 과제</span>
-          <h3 id="guideTitle">수업에서 몰입했던 과제를 떠올려보세요</h3>
-          <ol class="question-list" id="questionList"></ol>
-        </div>
-
-        <div class="experience-input-list" id="experienceInputList"></div>
-        <button class="secondary-button add-experience-button" id="addExperienceButton" type="button">+ 경험 추가하기</button>
-
-        <div class="guide-actions">
-          <p class="experience-count" id="experienceCount" aria-live="polite">입력한 경험 0개 (직무 매칭은 3개 이상)</p>
-          <button class="primary-button" id="jobMatchButton" type="button" disabled title="경험을 3개 이상 입력해주세요">직무 매칭</button>
-        </div>
-        <p class="match-status" id="matchStatus" role="status" aria-live="polite"></p>
-      </div>
-    </section>
-    <section class="tab-panel" id="write-panel" role="tabpanel" aria-labelledby="write-tab" tabindex="0" hidden>
-      <div class="write-layout">
-        <aside class="template-panel" aria-labelledby="templateHeading">
-          <div class="template-heading">
-            <span class="step-label">TEMPLATE</span>
-            <h2 id="templateHeading">템플릿 추천</h2>
-            <p>기록 목적에 맞는 작성 틀을 선택하세요.</p>
-          </div>
-          <div class="template-list" role="group" aria-label="기록 템플릿">
-            <button class="template-item active" type="button" data-template="star" aria-pressed="true">
-              <strong>STAR 구조</strong>
-              <small>상황 · 과제 · 행동 · 결과</small>
-            </button>
-            <button class="template-item" type="button" data-template="kpt" aria-pressed="false">
-              <strong>KPT 회고</strong>
-              <small>Keep · Problem · Try</small>
-            </button>
-            <button class="template-item" type="button" data-template="free" aria-pressed="false">
-              <strong>자유 기록</strong>
-              <small>경험과 배운 점을 자유롭게</small>
-            </button>
-          </div>
-        </aside>
-
-        <form class="editor-card" id="recordForm">
-          <div class="editor-heading">
-            <span class="step-label">STEP 2</span>
-            <h2>새 경험 기록</h2>
-          </div>
-          <div class="field-row">
-            <label for="recordCategory">분류
-              <select id="recordCategory" name="category">
-                <option value="class">수업 과제</option>
-                <option value="club">동아리</option>
-                <option value="contest">대회·공모전</option>
-                <option value="work">알바·인턴</option>
-                <option value="volunteer">봉사</option>
-                <option value="hobby">취미·자기계발</option>
-                <option value="award">수상·자격증</option>
-              </select>
-            </label>
-            <label for="recordDate">날짜
-              <input id="recordDate" name="date" type="date" required>
-            </label>
-          </div>
-          <label for="recordTitle">제목
-            <input id="recordTitle" name="title" type="text" maxlength="80" placeholder="경험을 한 문장으로 표현해보세요" required>
-          </label>
-          <div class="template-fields" id="dynamicFields"></div>
-          <label for="recordSummary">한 줄 요약
-            <textarea id="recordSummary" name="summary" rows="2" maxlength="200" placeholder="이 경험에서 가장 중요한 배움을 적어보세요"></textarea>
-          </label>
-          <div class="editor-actions">
-            <button class="primary-button" type="submit">기록 저장</button>
-            <p id="saveStatus" role="status" aria-live="polite"></p>
-          </div>
-        </form>
-      </div>
-    </section>
-    <section class="tab-panel" id="list-panel" role="tabpanel" aria-labelledby="list-tab" tabindex="0" hidden>
-      <div class="list-toolbar">
-        <div>
-          <span class="step-label">MY RECORDS</span>
-          <h2>기록 목록</h2>
-        </div>
-        <label class="search-box" for="recordSearch">Fuse.js 검색
-          <input id="recordSearch" type="search" placeholder="제목, 요약, 분류, 기록 내용 검색">
-        </label>
-      </div>
-      <p class="record-count" id="recordCount" aria-live="polite"></p>
-      <p class="search-status" id="searchStatus" role="status" aria-live="polite"></p>
-      <div class="record-list" id="recordList"></div>
-    </section>
-    <section class="tab-panel" id="calendar-panel" role="tabpanel" aria-labelledby="calendar-tab" tabindex="0" hidden>
-      <div class="calendar-layout">
-        <section class="calendar-card" aria-labelledby="calendarTitle">
-          <div class="calendar-header">
-            <button class="icon-button" id="prevMonth" type="button" aria-label="이전 달"><i data-lucide="chevron-left"></i></button>
-            <h2 id="calendarTitle"></h2>
-            <button class="icon-button" id="nextMonth" type="button" aria-label="다음 달"><i data-lucide="chevron-right"></i></button>
-          </div>
-          <p class="calendar-status" id="calendarStatus" role="alert" hidden></p>
-          <div id="fullCalendar"></div>
-        </section>
-
-        <aside class="streak-card" aria-labelledby="streakHeading">
-          <div class="streak-heading">
-            <i data-lucide="flame"></i>
-            <span class="step-label">GROWTH STREAK</span>
-          </div>
-          <h2 id="streakHeading">꾸준한 기록</h2>
-          <div class="streak-score"><span id="streakCount">0</span><small>일 연속 기록</small></div>
-          <p class="streak-message" id="streakMessage">오늘의 경험을 기록해 성장 흐름을 이어가 보세요.</p>
-          <div class="streak-week" id="streakWeek" aria-label="최근 7일 기록 활동"></div>
-          <p class="chart-status" id="chartStatus" role="status" aria-live="polite"></p>
-          <div class="month-summary">
-            <i data-lucide="trophy"></i>
-            <div><strong>이번 달 기록</strong><small id="monthRecordCount">0개</small></div>
-          </div>
-        </aside>
-      </div>
-
-      <section class="heatmap-card" aria-labelledby="heatmapHeading">
-        <div class="heatmap-heading">
-          <i data-lucide="activity"></i>
-          <div>
-            <h2 id="heatmapHeading">기록 활동 히트맵</h2>
-            <p>지난 12개월 동안 기록한 경험을 한눈에 확인하세요.</p>
-          </div>
-        </div>
-        <div class="heatmap-scroll">
-          <div id="activityHeatmap" role="img" aria-label="날짜별 경험 기록 활동 히트맵"></div>
-        </div>
-        <p class="heatmap-status" id="heatmapStatus" role="status" aria-live="polite"></p>
-      </section>
-    </section>
-  </main>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cal-heatmap@4.2.4/dist/cal-heatmap.css">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/cal-heatmap@4.2.4/dist/cal-heatmap.min.js"></script>
+</head>
+<body>
+  <main class="main-content">
+    <div class="page-shell">
+      <section class="page-heading">
+        <div>
+          <p class="eyebrow">MY GROWTH JOURNEY</p>
+          <h1>경험 기록</h1>
+          <p>크고 작은 경험을 기록하고 나만의 성장 스토리를 만들어보세요.</p>
+        </div>
+        <button class="primary-button" id="quickAddButton"><i data-lucide="plus"></i>새 기록</button>
+      </section>
+
+      <div class="tab-bar" role="tablist" aria-label="경험 기록 메뉴">
+        <button class="tab-button active" data-tab="extract" role="tab" aria-selected="true"><i data-lucide="lightbulb"></i>경험 꺼내기</button>
+        <button class="tab-button" data-tab="write" role="tab"><i data-lucide="pen-line"></i>기록 작성</button>
+        <button class="tab-button" data-tab="list" role="tab"><i data-lucide="list-tree"></i>기록 목록 <span class="count-badge" id="recordCount">0</span></button>
+        <button class="tab-button" data-tab="calendar" role="tab"><i data-lucide="calendar-days"></i>캘린더 · 스트릭</button>
+      </div>
+
+      <section class="tab-panel active" id="extract-panel" role="tabpanel">
+        <div class="section-intro">
+          <div>
+            <span class="step-label">STEP 1</span>
+            <h2>어떤 경험을 떠올리고 있나요?</h2>
+            <p>분류를 선택하면 해당 경험을 꺼낼 수 있는 안내 질문을 보여드릴게요.</p>
+          </div>
+        </div>
+        <div class="extract-category-tabs" id="extractCategoryTabs" role="tablist" aria-label="경험 분류">
+          <button class="extract-tab active" data-category="class"><i data-lucide="book-open"></i>수업 과제</button>
+          <button class="extract-tab" data-category="club"><i data-lucide="users"></i>동아리</button>
+          <button class="extract-tab" data-category="contest"><i data-lucide="trophy"></i>대회·공모전</button>
+          <button class="extract-tab" data-category="work"><i data-lucide="briefcase"></i>알바·인턴</button>
+          <button class="extract-tab" data-category="volunteer"><i data-lucide="heart-handshake"></i>봉사</button>
+          <button class="extract-tab" data-category="hobby"><i data-lucide="sparkles"></i>취미·자기계발</button>
+          <button class="extract-tab" data-category="award"><i data-lucide="badge-check"></i>수상·자격증</button>
+        </div>
+        <div class="extract-workspace">
+          <div class="extract-question">
+            <div class="guide-card-header">
+              <div><span class="guide-tag" id="guideTag">수업 과제</span><h3 id="guideTitle">수업에서 몰입했던 과제를 떠올려보세요</h3></div>
+            </div>
+            <div class="question-list" id="questionList"></div>
+          </div>
+          <div class="experience-input-list" id="experienceInputList"></div>
+          <button class="secondary-button add-experience-button" id="addExperienceButton" type="button"><i data-lucide="plus"></i>경험 추가하기</button>
+          <div class="guide-actions">
+            <button class="secondary-button" id="startRecord"><i data-lucide="pen-line"></i>기록 작성으로 이동</button>
+            <span class="experience-count" id="experienceCount">0 / 3 경험 입력</span>
+            <button class="primary-button" id="jobMatchButton" disabled><i data-lucide="route"></i>직무 매칭</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="write-panel" role="tabpanel">
+        <div class="write-layout">
+          <aside class="template-panel">
+            <div class="template-heading">
+              <span class="step-label">TEMPLATE</span>
+              <h2>템플릿 추천</h2>
+              <p>목적에 맞는 기록 틀을 선택하세요.</p>
+            </div>
+            <div class="template-list" id="templateList">
+              <button class="template-item active" data-template="star">
+                <span class="template-icon"><i data-lucide="sparkles"></i></span>
+                <span><strong>STAR 구조</strong><small>상황 · 과제 · 행동 · 결과</small></span>
+              </button>
+              <button class="template-item" data-template="kpt">
+                <span class="template-icon"><i data-lucide="rotate-cw"></i></span>
+                <span><strong>KPT 회고</strong><small>Keep · Problem · Try</small></span>
+              </button>
+              <button class="template-item" data-template="free">
+                <span class="template-icon"><i data-lucide="file-text"></i></span>
+                <span><strong>사연 한 장</strong><small>사진과 함께 자유롭게 기록</small></span>
+              </button>
+            </div>
+          </aside>
+
+          <div class="editor-card">
+            <div class="editor-heading">
+              <span class="step-label">STEP 2</span>
+              <h2 id="editorTitle">새 경험 기록</h2>
+              <span class="save-status" id="saveStatus"><i data-lucide="cloud"></i>임시저장 완료</span>
+            </div>
+            <form id="recordForm">
+              <div class="field-row">
+                <label>분류
+                  <select id="recordCategory" name="category">
+                    <option value="class">수업 과제</option>
+                    <option value="club">동아리</option>
+                    <option value="contest">대회·공모전</option>
+                    <option value="work">알바·인턴</option>
+                    <option value="volunteer">봉사</option>
+                    <option value="hobby">취미·자기계발</option>
+                    <option value="award">수상·자격증</option>
+                  </select>
+                </label>
+                <label>날짜
+                  <input id="recordDate" name="date" type="date">
+                </label>
+              </div>
+              <label>제목
+                <input id="recordTitle" name="title" type="text" maxlength="50" placeholder="예) 수업 발표에서 맡은 기획 및 분석 역할" required>
+              </label>
+              <div id="dynamicFields"></div>
+              <label>한 줄 요약
+                <input id="recordSummary" name="summary" type="text" maxlength="100" placeholder="이 경험을 한 문장으로 표현해보세요">
+              </label>
+              <div class="editor-actions">
+                <button type="button" class="secondary-button" id="saveDraft"><i data-lucide="save"></i>임시저장</button>
+                <button type="submit" class="primary-button"><i data-lucide="check"></i>기록 저장</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="list-panel" role="tabpanel">
+        <div class="list-toolbar">
+          <div>
+            <span class="step-label">MY RECORDS</span>
+            <h2>기록 목록</h2>
+          </div>
+          <div class="list-controls">
+            <button class="secondary-button" id="projectGroupButton" disabled><i data-lucide="combine"></i>프로젝트 묶기 <span id="selectedRecordCount">0</span></button>
+            <label class="search-box">
+              <i data-lucide="search"></i>
+              <input type="search" id="recordSearch" placeholder="제목, 태그, 경험 검색">
+            </label>
+            <select id="categoryFilter" aria-label="분류 필터">
+              <option value="all">전체 분류</option>
+              <option value="class">수업 과제</option>
+              <option value="club">동아리</option>
+              <option value="contest">대회·공모전</option>
+              <option value="work">알바·인턴</option>
+              <option value="volunteer">봉사</option>
+              <option value="hobby">취미·자기계발</option>
+              <option value="award">수상·자격증</option>
+            </select>
+            <select id="recordSort" aria-label="기록 날짜 정렬">
+              <option value="newest">최신순</option>
+              <option value="oldest">오래된순</option>
+            </select>
+          </div>
+        </div>
+        <div class="record-list" id="recordList"></div>
+      </section>
+
+      <section class="tab-panel" id="calendar-panel" role="tabpanel">
+        <div class="calendar-layout">
+          <div class="calendar-card">
+            <div class="calendar-header">
+              <button class="icon-button" id="prevMonth" aria-label="이전 달"><i data-lucide="chevron-left"></i></button>
+              <h2 id="calendarTitle"></h2>
+              <button class="icon-button" id="nextMonth" aria-label="다음 달"><i data-lucide="chevron-right"></i></button>
+            </div>
+            <div id="fullCalendar"></div>
+          </div>
+          <aside class="streak-card">
+            <span class="step-label">GROWTH STREAK</span>
+            <div class="streak-score"><span id="streakCount">7</span><small>일 연속 기록</small></div>
+            <div class="streak-week" id="streakWeek"></div>
+            <div class="streak-message">
+              <i data-lucide="trophy"></i>
+              <div><strong>이번 달도 성장 중!</strong><small id="monthRecordCount">이달의 기록 0개</small></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="record-view-modal" id="recordViewModal" role="dialog" aria-modal="true" aria-labelledby="recordViewTitle" hidden>
+    <div class="record-view-backdrop" data-close-record-view></div>
+    <div class="record-view-dialog">
+      <button type="button" class="record-view-close icon-button" data-close-record-view aria-label="기록 내용 닫기">
+        <i data-lucide="x"></i>
+      </button>
+      <div id="recordViewContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
 </body>
 </html>
