@@ -3,36 +3,43 @@ const categoryData = {
   class: {
     label: "수업 과제",
     title: "수업에서 몰입했던 과제를 떠올려보세요",
+    color: "#4b82c3",
     questions: ["어떤 수업 과제나 발표였나요?", "내가 맡은 역할과 어려웠던 점은 무엇인가요?", "어떤 지식이나 기술을 활용했나요?"]
   },
   club: {
     label: "동아리",
     title: "동아리에서 책임지고 성장한 순간을 떠올려보세요",
+    color: "#d6a62a",
     questions: ["동아리에서 맡은 활동이나 역할은 무엇인가요?", "팀원과 협업하며 해결한 어려움은 무엇인가요?", "이 경험을 통해 얻은 역량은 무엇인가요?"]
   },
   contest: {
     label: "대회·공모전",
     title: "새로운 도전을 시작했던 경험을 떠올려보세요",
+    color: "#dc7d42",
     questions: ["어떤 대회나 공모전에 참여했나요?", "준비 과정에서 어려웠던 점은 무엇인가요?", "결과와 관계없이 얻은 배움은 무엇인가요?"]
   },
   work: {
     label: "알바·인턴",
     title: "일터에서 배운 경험을 떠올려보세요",
+    color: "#7567bd",
     questions: ["어떤 업무를 담당했나요?", "기존 방식과 달리 해결했던 일이 있었나요?", "이 경험에서 발견한 강점은 무엇인가요?"]
   },
   volunteer: {
     label: "봉사",
     title: "누군가를 돕고 변화를 만든 경험을 떠올려보세요",
+    color: "#cf6f91",
     questions: ["어떤 봉사 활동에 참여했나요?", "현장에서 마주한 어려움은 무엇인가요?", "나와 상대방에게 어떤 변화가 있었나요?"]
   },
   hobby: {
     label: "취미·자기계발",
     title: "꾸준히 몰입한 자기계발 경험을 떠올려보세요",
+    color: "#36a19a",
     questions: ["어떤 취미나 공부를 시작하게 되었나요?", "꾸준히 하기 위해 어떤 방법을 사용했나요?", "성장 과정에서 발견한 흥미와 역량은 무엇인가요?"]
   },
   award: {
     label: "수상·자격증",
     title: "성취를 인정받았던 경험을 떠올려보세요",
+    color: "#cf6259",
     questions: ["어떤 수상이나 자격을 얻었나요?", "준비 과정에서 어떤 노력을 했나요?", "이 성취가 내 목표와 어떻게 연결되나요?"]
   }
 };
@@ -60,6 +67,11 @@ const templateButtons = Array.from(document.querySelectorAll(".template-item"));
 const templateDrafts = Object.fromEntries(Object.keys(templateData).map(key => [key, []]));
 let selectedTemplate = "star";
 let records = loadRecords();
+let fullCalendarInstance = null;
+let calHeatmapInstance = null;
+let heatmapRenderTask = Promise.resolve();
+let heatmapSignature = "";
+let calendarViewDate = new Date();
 
 const categoryTabs = Array.from(document.querySelectorAll(".extract-tab"));
 const experiences = Object.fromEntries(
@@ -80,6 +92,7 @@ function activateTab(tab, moveFocus = false) {
   });
 
   if (tab.id === "list-tab") renderRecords();
+  if (tab.id === "calendar-tab") renderCalendar();
   if (moveFocus) tab.focus();
 }
 
@@ -355,6 +368,231 @@ function renderRecords(query = "") {
   });
 }
 
+function dateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function getDailyRecordCounts() {
+  const counts = new Map();
+  records.forEach(record => counts.set(record.date, (counts.get(record.date) || 0) + 1));
+  return counts;
+}
+
+function renderWeeklyActivity(dailyCounts) {
+  const chartStatus = document.getElementById("chartStatus");
+  if (!window.d3) {
+    chartStatus.textContent = "D3.js를 불러오지 못해 주간 활동 차트를 표시할 수 없습니다.";
+    return;
+  }
+
+  chartStatus.textContent = "";
+  const d3 = window.d3;
+  const today = new Date();
+  const week = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6 + index, 12);
+    return {
+      date: dateKey(date),
+      label: new Intl.DateTimeFormat("ko-KR", { weekday: "short" }).format(date),
+      count: dailyCounts.get(dateKey(date)) || 0
+    };
+  });
+  const svg = d3.select("#streakWeek")
+    .selectAll("svg")
+    .data([week])
+    .join("svg")
+    .attr("viewBox", "0 0 320 132")
+    .attr("role", "img")
+    .attr("aria-label", "최근 7일간의 경험 기록 개수");
+  const x = d3.scaleBand().domain(week.map(day => day.date)).range([12, 308]).padding(0.25);
+  const maxCount = Math.max(1, d3.max(week, day => day.count));
+  const y = d3.scaleLinear().domain([0, maxCount]).range([94, 24]);
+  const groups = svg.selectAll(".week-day")
+    .data(week)
+    .join("g")
+    .attr("class", "week-day")
+    .attr("transform", day => `translate(${x(day.date)},0)`);
+
+  groups.selectAll("rect")
+    .data(day => [day])
+    .join("rect")
+    .attr("x", 0)
+    .attr("y", day => day.count ? y(day.count) : 88)
+    .attr("width", x.bandwidth())
+    .attr("height", day => day.count ? 94 - y(day.count) : 6)
+    .attr("rx", 4)
+    .attr("fill", day => day.count ? "#2480d8" : "#e5ebf2");
+
+  groups.selectAll(".day-count")
+    .data(day => [day])
+    .join("text")
+    .attr("class", "day-count")
+    .attr("x", x.bandwidth() / 2)
+    .attr("y", day => day.count ? y(day.count) - 6 : 80)
+    .attr("text-anchor", "middle")
+    .text(day => day.count || "");
+
+  groups.selectAll(".day-label")
+    .data(day => [day])
+    .join("text")
+    .attr("class", "day-label")
+    .attr("x", x.bandwidth() / 2)
+    .attr("y", 116)
+    .attr("text-anchor", "middle")
+    .text(day => day.label);
+
+  groups.selectAll("title")
+    .data(day => [day])
+    .join("title")
+    .text(day => `${day.date}: ${day.count}개 기록`);
+}
+
+function renderStreak(dailyCounts) {
+  const recordedDates = new Set(dailyCounts.keys());
+  const today = new Date(`${localDateString()}T12:00:00`);
+  const todayKey = dateKey(today);
+  const cursor = new Date(today);
+  if (!recordedDates.has(todayKey)) cursor.setDate(cursor.getDate() - 1);
+
+  let streak = 0;
+  while (recordedDates.has(dateKey(cursor))) {
+    streak++;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+
+  document.getElementById("streakCount").textContent = String(streak);
+  document.getElementById("streakMessage").textContent = streak
+    ? `${streak}일째 기록을 이어가고 있어요.`
+    : "오늘의 경험을 기록해 성장 흐름을 이어가 보세요.";
+
+  const now = new Date();
+  const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const monthCount = records.filter(record => record.date.startsWith(monthPrefix)).length;
+  document.getElementById("monthRecordCount").textContent = `${monthCount}개`;
+  renderWeeklyActivity(dailyCounts);
+}
+
+function renderActivityHeatmap(dailyCounts) {
+  const status = document.getElementById("heatmapStatus");
+  if (typeof window.CalHeatmap !== "function") {
+    status.textContent = "Cal-Heatmap을 불러오지 못해 활동 히트맵을 표시할 수 없습니다.";
+    return;
+  }
+
+  const data = Array.from(dailyCounts, ([date, value]) => ({
+    date: new Date(`${date}T12:00:00`),
+    value
+  }));
+  const signature = JSON.stringify(data.map(item => [item.date.toISOString(), item.value]));
+  if (signature === heatmapSignature && calHeatmapInstance) return;
+
+  heatmapRenderTask = heatmapRenderTask.then(async () => {
+    if (signature === heatmapSignature && calHeatmapInstance) return;
+    if (calHeatmapInstance) await calHeatmapInstance.destroy();
+
+    const heatmap = new window.CalHeatmap();
+    calHeatmapInstance = heatmap;
+    const container = document.getElementById("activityHeatmap");
+    container.replaceChildren();
+
+    const today = new Date();
+    const startDate = new Date(today.getFullYear(), today.getMonth() - 11, 1, 12);
+    const maxCount = Math.max(1, ...dailyCounts.values());
+    await heatmap.paint({
+      itemSelector: "#activityHeatmap",
+      date: { start: startDate },
+      range: 12,
+      domain: { type: "month", gutter: 8 },
+      subDomain: { type: "day", radius: 2, width: 12, height: 12, gutter: 4 },
+      data: { source: data, x: "date", y: "value" },
+      scale: {
+        color: {
+          type: "linear",
+          domain: [0, maxCount],
+          range: ["#ebedf0", "#216e39"]
+        }
+      }
+    });
+
+    heatmapSignature = signature;
+    status.textContent = records.length
+      ? "기록 날짜별 활동을 표시합니다."
+      : "아직 기록이 없어 활동 히트맵이 비어 있습니다.";
+  }).catch(error => {
+    status.textContent = "활동 히트맵을 그리는 중 오류가 발생했습니다.";
+    console.error("Cal-Heatmap rendering failed.", error);
+  });
+}
+
+function renderCalendar() {
+  const calendarStatus = document.getElementById("calendarStatus");
+  if (typeof window.FullCalendar?.Calendar !== "function") {
+    calendarStatus.hidden = false;
+    calendarStatus.textContent = "FullCalendar를 불러오지 못해 캘린더를 표시할 수 없습니다.";
+  } else {
+    calendarStatus.hidden = true;
+    const calendarEvents = records.map(record => ({
+      id: String(record.id),
+      title: record.title,
+      start: record.date,
+      allDay: true,
+      backgroundColor: categoryData[record.category].color,
+      borderColor: categoryData[record.category].color
+    }));
+
+    if (!fullCalendarInstance) {
+      fullCalendarInstance = new window.FullCalendar.Calendar(
+        document.getElementById("fullCalendar"),
+        {
+          initialView: "dayGridMonth",
+          initialDate: calendarViewDate,
+          locale: "ko",
+          headerToolbar: false,
+          height: "auto",
+          dayMaxEvents: true,
+          events: calendarEvents,
+          datesSet: info => {
+            calendarViewDate = info.view.currentStart;
+            document.getElementById("calendarTitle").textContent = info.view.title;
+          },
+          dateClick: info => {
+            document.getElementById("recordDate").value = info.dateStr;
+            activateTab(tabs.find(tab => tab.id === "write-tab"));
+            document.getElementById("recordTitle").focus();
+          }
+        }
+      );
+      fullCalendarInstance.render();
+    } else {
+      fullCalendarInstance.removeAllEvents();
+      fullCalendarInstance.addEventSource(calendarEvents);
+      fullCalendarInstance.updateSize();
+    }
+  }
+
+  const dailyCounts = getDailyRecordCounts();
+  renderStreak(dailyCounts);
+  renderActivityHeatmap(dailyCounts);
+}
+
+function changeCalendarMonth(amount) {
+  if (fullCalendarInstance) {
+    if (amount < 0) fullCalendarInstance.prev();
+    else fullCalendarInstance.next();
+    return;
+  }
+
+  calendarViewDate = new Date(
+    calendarViewDate.getFullYear(),
+    calendarViewDate.getMonth() + amount,
+    1
+  );
+  document.getElementById("calendarTitle").textContent =
+    `${calendarViewDate.getFullYear()}년 ${calendarViewDate.getMonth() + 1}월`;
+}
+
+document.getElementById("prevMonth").addEventListener("click", () => changeCalendarMonth(-1));
+document.getElementById("nextMonth").addEventListener("click", () => changeCalendarMonth(1));
+
 templateButtons.forEach(button => {
   button.addEventListener("click", () => selectTemplate(button));
 });
@@ -402,3 +640,8 @@ document.getElementById("recordSearch").addEventListener("input", event => {
 selectTemplate(templateButtons[0]);
 document.getElementById("recordDate").value = localDateString();
 selectCategory(categoryTabs[0]);
+if (window.lucide) {
+  window.lucide.createIcons();
+} else {
+  console.error("Lucide Icons failed to load.");
+}

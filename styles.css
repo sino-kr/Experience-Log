@@ -549,6 +549,254 @@ h1 {
   font-size: 13px;
 }
 
+.tab-button svg,
+.streak-heading svg,
+.heatmap-heading > svg,
+.month-summary > svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+.tab-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 16px;
+  align-items: start;
+}
+
+.calendar-card,
+.streak-card,
+.heatmap-card {
+  border: 1px solid #e4edf5;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.calendar-card {
+  min-width: 0;
+  padding: 18px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.icon-button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid #e4edf5;
+  border-radius: 8px;
+  background: #fff;
+  color: #53657b;
+  cursor: pointer;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  border-color: #78afe0;
+  color: #1769aa;
+}
+
+.icon-button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.calendar-status {
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff4f2;
+  color: #a63b32;
+  font-size: 13px;
+}
+
+.calendar-status[hidden] {
+  display: none;
+}
+
+.calendar-card .fc {
+  font-size: 12px;
+  --fc-border-color: #edf2f6;
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: #f8fafc;
+  --fc-today-bg-color: #eff6fe;
+  --fc-event-border-color: transparent;
+}
+
+.calendar-card .fc .fc-col-header-cell-cushion,
+.calendar-card .fc .fc-daygrid-day-number {
+  color: #66778d;
+  text-decoration: none;
+}
+
+.calendar-card .fc .fc-daygrid-day-frame {
+  min-height: 74px;
+}
+
+.calendar-card .fc .fc-event {
+  border-radius: 5px;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+
+.calendar-card .fc .fc-daygrid-day:hover {
+  background: #f7fbff;
+}
+
+.streak-card {
+  padding: 20px;
+}
+
+.streak-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #e28b38;
+}
+
+.streak-card h2 {
+  margin: 10px 0 0;
+  font-size: 18px;
+}
+
+.streak-score {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 4px;
+}
+
+.streak-score span {
+  color: #1769aa;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.streak-score small {
+  color: #718096;
+  font-weight: 700;
+}
+
+.streak-message {
+  margin: 0;
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.streak-week {
+  margin-top: 12px;
+}
+
+.streak-week svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.streak-week .day-count {
+  fill: #53657b;
+  font-size: 10px;
+}
+
+.streak-week .day-label {
+  fill: #718096;
+  font-size: 10px;
+}
+
+.chart-status {
+  min-height: 18px;
+  margin: 2px 0 0;
+  color: #a63b32;
+  font-size: 11px;
+}
+
+.month-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 9px;
+  background: #f2f7fd;
+  color: #e6a34a;
+}
+
+.month-summary div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #1d2b40;
+}
+
+.month-summary strong {
+  font-size: 12px;
+}
+
+.month-summary small {
+  color: #718096;
+  font-size: 11px;
+}
+
+.heatmap-card {
+  margin-top: 16px;
+  padding: 18px 20px;
+}
+
+.heatmap-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #1769aa;
+}
+
+.heatmap-heading h2 {
+  margin: 0;
+  color: #1d2b40;
+  font-size: 17px;
+}
+
+.heatmap-heading p {
+  margin: 4px 0 0;
+  color: #718096;
+  font-size: 12px;
+}
+
+.heatmap-scroll {
+  overflow-x: auto;
+  margin-top: 16px;
+  padding-bottom: 4px;
+}
+
+#activityHeatmap {
+  min-width: 760px;
+}
+
+.heatmap-status {
+  margin: 8px 0 0;
+  color: #718096;
+  font-size: 12px;
+}
+
 .tab-panel {
   min-height: 220px;
   padding: 28px 4px;
@@ -579,6 +827,26 @@ h1 {
 
   .write-layout {
     grid-template-columns: 1fr;
+  }
+
+  .calendar-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-card {
+    padding: 12px;
+  }
+
+  .calendar-card .fc .fc-daygrid-day-frame {
+    min-height: 56px;
+  }
+
+  .streak-card {
+    padding: 16px;
+  }
+
+  .heatmap-card {
+    padding: 14px;
   }
 
   .template-list,
