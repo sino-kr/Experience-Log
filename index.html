@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="나의 경험을 기록하는 공간">
+  <title>경험 기록</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">MY GROWTH JOURNEY</p>
+        <h1>경험 기록</h1>
+        <p>크고 작은 경험을 기록하고 나만의 성장 스토리를 만들어보세요.</p>
+      </div>
+    </header>
+
+    <div class="tab-bar" role="tablist" aria-label="경험 기록 메뉴">
+      <button class="tab-button active" id="extract-tab" type="button" role="tab" aria-selected="true" aria-controls="extract-panel" tabindex="0">경험 꺼내기</button>
+      <button class="tab-button" id="write-tab" type="button" role="tab" aria-selected="false" aria-controls="write-panel" tabindex="-1">기록 작성</button>
+      <button class="tab-button" id="list-tab" type="button" role="tab" aria-selected="false" aria-controls="list-panel" tabindex="-1">기록 목록</button>
+      <button class="tab-button" id="calendar-tab" type="button" role="tab" aria-selected="false" aria-controls="calendar-panel" tabindex="-1">캘린더 · 스트릭</button>
+    </div>
+
+    <section class="tab-panel active" id="extract-panel" role="tabpanel" aria-labelledby="extract-tab" tabindex="0">
+      <h2>경험 꺼내기</h2>
+    </section>
+    <section class="tab-panel" id="write-panel" role="tabpanel" aria-labelledby="write-tab" tabindex="0" hidden>
+      <h2>기록 작성</h2>
+    </section>
+    <section class="tab-panel" id="list-panel" role="tabpanel" aria-labelledby="list-tab" tabindex="0" hidden>
+      <h2>기록 목록</h2>
+    </section>
+    <section class="tab-panel" id="calendar-panel" role="tabpanel" aria-labelledby="calendar-tab" tabindex="0" hidden>
+      <h2>캘린더 · 스트릭</h2>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
