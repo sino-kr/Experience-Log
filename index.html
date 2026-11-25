@@ -25,7 +25,38 @@
     </div>
 
     <section class="tab-panel active" id="extract-panel" role="tabpanel" aria-labelledby="extract-tab" tabindex="0">
-      <h2>경험 꺼내기</h2>
+      <div class="section-intro">
+        <span class="step-label">STEP 1</span>
+        <h2>어떤 경험을 떠올리고 있나요?</h2>
+        <p>분류를 선택하고 안내 질문을 따라 경험을 입력해보세요.</p>
+      </div>
+
+      <div class="extract-category-tabs" role="tablist" aria-label="경험 분류">
+        <button class="extract-tab active" id="category-class" type="button" role="tab" aria-selected="true" aria-controls="category-panel" data-category="class">수업 과제</button>
+        <button class="extract-tab" id="category-club" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="club">동아리</button>
+        <button class="extract-tab" id="category-contest" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="contest">대회·공모전</button>
+        <button class="extract-tab" id="category-work" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="work">알바·인턴</button>
+        <button class="extract-tab" id="category-volunteer" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="volunteer">봉사</button>
+        <button class="extract-tab" id="category-hobby" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="hobby">취미·자기계발</button>
+        <button class="extract-tab" id="category-award" type="button" role="tab" aria-selected="false" aria-controls="category-panel" data-category="award">수상·자격증</button>
+      </div>
+
+      <div class="extract-workspace" id="category-panel" role="tabpanel" aria-labelledby="category-class">
+        <div class="guide-card">
+          <span class="guide-tag" id="guideTag">수업 과제</span>
+          <h3 id="guideTitle">수업에서 몰입했던 과제를 떠올려보세요</h3>
+          <ol class="question-list" id="questionList"></ol>
+        </div>
+
+        <div class="experience-input-list" id="experienceInputList"></div>
+        <button class="secondary-button add-experience-button" id="addExperienceButton" type="button">+ 경험 추가하기</button>
+
+        <div class="guide-actions">
+          <p class="experience-count" id="experienceCount" aria-live="polite">입력한 경험 0개 (직무 매칭은 3개 이상)</p>
+          <button class="primary-button" id="jobMatchButton" type="button" disabled title="경험을 3개 이상 입력해주세요">직무 매칭</button>
+        </div>
+        <p class="match-status" id="matchStatus" role="status" aria-live="polite"></p>
+      </div>
     </section>
     <section class="tab-panel" id="write-panel" role="tabpanel" aria-labelledby="write-tab" tabindex="0" hidden>
       <h2>기록 작성</h2>
