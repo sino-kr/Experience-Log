@@ -59,15 +59,83 @@
       </div>
     </section>
     <section class="tab-panel" id="write-panel" role="tabpanel" aria-labelledby="write-tab" tabindex="0" hidden>
-      <h2>기록 작성</h2>
+      <div class="write-layout">
+        <aside class="template-panel" aria-labelledby="templateHeading">
+          <div class="template-heading">
+            <span class="step-label">TEMPLATE</span>
+            <h2 id="templateHeading">템플릿 추천</h2>
+            <p>기록 목적에 맞는 작성 틀을 선택하세요.</p>
+          </div>
+          <div class="template-list" role="group" aria-label="기록 템플릿">
+            <button class="template-item active" type="button" data-template="star" aria-pressed="true">
+              <strong>STAR 구조</strong>
+              <small>상황 · 과제 · 행동 · 결과</small>
+            </button>
+            <button class="template-item" type="button" data-template="kpt" aria-pressed="false">
+              <strong>KPT 회고</strong>
+              <small>Keep · Problem · Try</small>
+            </button>
+            <button class="template-item" type="button" data-template="free" aria-pressed="false">
+              <strong>자유 기록</strong>
+              <small>경험과 배운 점을 자유롭게</small>
+            </button>
+          </div>
+        </aside>
+
+        <form class="editor-card" id="recordForm">
+          <div class="editor-heading">
+            <span class="step-label">STEP 2</span>
+            <h2>새 경험 기록</h2>
+          </div>
+          <div class="field-row">
+            <label for="recordCategory">분류
+              <select id="recordCategory" name="category">
+                <option value="class">수업 과제</option>
+                <option value="club">동아리</option>
+                <option value="contest">대회·공모전</option>
+                <option value="work">알바·인턴</option>
+                <option value="volunteer">봉사</option>
+                <option value="hobby">취미·자기계발</option>
+                <option value="award">수상·자격증</option>
+              </select>
+            </label>
+            <label for="recordDate">날짜
+              <input id="recordDate" name="date" type="date" required>
+            </label>
+          </div>
+          <label for="recordTitle">제목
+            <input id="recordTitle" name="title" type="text" maxlength="80" placeholder="경험을 한 문장으로 표현해보세요" required>
+          </label>
+          <div class="template-fields" id="dynamicFields"></div>
+          <label for="recordSummary">한 줄 요약
+            <textarea id="recordSummary" name="summary" rows="2" maxlength="200" placeholder="이 경험에서 가장 중요한 배움을 적어보세요"></textarea>
+          </label>
+          <div class="editor-actions">
+            <button class="primary-button" type="submit">기록 저장</button>
+            <p id="saveStatus" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
     </section>
     <section class="tab-panel" id="list-panel" role="tabpanel" aria-labelledby="list-tab" tabindex="0" hidden>
-      <h2>기록 목록</h2>
+      <div class="list-toolbar">
+        <div>
+          <span class="step-label">MY RECORDS</span>
+          <h2>기록 목록</h2>
+        </div>
+        <label class="search-box" for="recordSearch">Fuse.js 검색
+          <input id="recordSearch" type="search" placeholder="제목, 요약, 분류, 기록 내용 검색">
+        </label>
+      </div>
+      <p class="record-count" id="recordCount" aria-live="polite"></p>
+      <p class="search-status" id="searchStatus" role="status" aria-live="polite"></p>
+      <div class="record-list" id="recordList"></div>
     </section>
     <section class="tab-panel" id="calendar-panel" role="tabpanel" aria-labelledby="calendar-tab" tabindex="0" hidden>
       <h2>캘린더 · 스트릭</h2>
     </section>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
